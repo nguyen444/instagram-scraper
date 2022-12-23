@@ -4,17 +4,22 @@ import os
 
 
 
-# file = open("test.txt", mode='r', encoding='utf-8')
-# file.close()
-# video: view-source:https://bibliogram.snopyta.org/p/Bb46l8XFW4W/
-# image: view-source:https://bibliogram.pussthecat.org/p/BzYObQyhCh1
+# video example: view-source:https://bibliogram.snopyta.org/p/Bb46l8XFW4W/
+# image example: view-source:https://bibliogram.pussthecat.org/p/BzYObQyhCh1
 
 # bib_url = "https://bibliogram.pussthecat.org"
-bib_url = "https://bibliogram.org/"
+bib_url = "https://bibliogram.org"
 feed = ""
 address = os.getcwd()
 
 
+'''
+Returns a list of links to .jpg
+images in the given webpage
+
+@param site_url A given website URL
+@return .jpg images in webpage
+'''
 def get_pic_links(site_url):
     # create response object
     r = requests.get(site_url)
@@ -22,7 +27,7 @@ def get_pic_links(site_url):
     # create beautiful-soup object
     soup = BeautifulSoup(r.content,'html.parser')
     
-    # find all links on web-page
+    # find all images on web-page
     links = soup.findAll('img')
     
     # filter the link sending with .jpg
@@ -35,6 +40,13 @@ def get_pic_links(site_url):
     return pic_links
 
 
+'''
+Returns a list of links to .mp4
+videos in the given webpage
+
+@param site_url A given website URL
+@return .mp4 videos in webpage
+'''
 def get_video_links(site_url):
     # create response object
     r = requests.get(site_url)
@@ -42,7 +54,7 @@ def get_video_links(site_url):
     # create beautiful-soup object
     soup = BeautifulSoup(r.content,'html.parser')
     
-    # find all links on web-page
+    # find all videos on web-page
     links = soup.findAll('video')
     
     # filter the link sending with .mp4
@@ -55,6 +67,18 @@ def get_video_links(site_url):
     return video_links
 
 
+'''
+Given a list of URLs to videos,
+download them to the current
+directory. Uses a simple numbering
+convention to name the videos
+based on the order in which the
+videos were downloaded
+
+@precondition The videos are .mp4 files
+@param total_vids Total number of videos
+@param video_links Links to .mp4 videos
+'''
 def download_video_series(total_vids, video_links):
     count = 1
     str_ct = str(count)
@@ -79,52 +103,33 @@ def download_video_series(total_vids, video_links):
         count += 1
     
     print ("\nAll videos downloaded!\n\n")
-    return
 
 
+'''
+Given a list of URLs to images,
+download them to the current
+directory. Uses a simple numbering
+convention to name the images
+based on the order in which the
+images were downloaded
+
+@precondition The images are .jpg files
+@param total_pics Total number of images
+@param pic_links Links to .jpg images
+'''
 def download_pic_series(total_pics, pic_links):
     count = 1
     str_ct = str(count)
-    
-    '''
-    The syntax of python os.mkdir() function is:
-    
-    os.mkdir(path, mode=0o777, *, dir_fd=None)
-    
-    where path is the directory location to be created and mode is the
-    file permissions to be assigned while creating the directory.
-    '''
-    feed = "pictures"
-    
-    # will return 'feed/address'
-    # dir_path = os.path.join(feed, address)
-    
-    # create directory [current_path]
-    # os.makedirs(dir_path)
-    # output = open(os.path.join(dir_path, file_name), 'wb')
-    
-    # https://pythonexamples.org/python-create-directory-mkdir/#5
-    # https://stackoverflow.com/questions/7935972/writing-to-a-new-directory-in-python-without-changing-directory
-    # https://www.programiz.com/python-programming/directory
-    
-    
-    # https://pythonprogramminglanguage.com/python-self/
-    
-    
     for link in pic_links:
-        '''iterate through all links in pic_links
-        and download them one by one'''
-        
+        '''
+        iterate through all links in pic_links
+        and download them one by one
+        '''
         file_name = "picture" + str(total_pics + count) + ".jpg"
         print("Downloading file: %s"%file_name)
         
         # create response object
         r = requests.get(link, stream = True)
-        
-        # open(file_name, 'wb')
-        
-        # download started
-        # open(os.path.join(dir_path, file_name), 'wb')
         
         with open(file_name, 'wb') as file:
             for chunk in r.iter_content(chunk_size = 1024*1024):
@@ -135,20 +140,27 @@ def download_pic_series(total_pics, pic_links):
         count += 1
     
     print ("\nAll pictures downloaded!\n\n")
-    return
 
 
+'''
+Indicates the number of times
+a function was visited
+
+@param total The total number of visits
+@param func_name The function invoked
+'''
 def num_times_visited(total, func_name):
     if (total == 1):
-        print(name_func + " visited 1 time")
+        print(func_name + " visited 1 time")
     else:
-        print(name_func + " visited " + str(total) + " times")
-    
-    return
+        print(func_name + " visited " + str(total) + " times")
 
 
+'''
+Executes the instagram scraper
+'''
 if __name__ == "__main__":
-    filename = input("Enter a filename: ")
+    filename = input("Enter a filename or link: ")
     # filename = "instagram.txt"
     # filename = "instagram2.txt"
     list_vids = []
@@ -158,6 +170,7 @@ if __name__ == "__main__":
     
     total_pics = 0
     visits_pics = 0
+    
     
     if (filename == "exit"):
         exit()
