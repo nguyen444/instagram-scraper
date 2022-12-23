@@ -181,13 +181,14 @@ if __name__ == "__main__":
     if ("https" in filename):
         items = filename.split('/')
         link = bib_url + "/p/" + items[4]
-        #list_vids = get_video_links(link)
-        #num_vids = len(list_vids)
-        #if (num_vids > 0):
-        #    download_video_series(total_vids, list_vids)
-        #    total_vids += num_vids
-        #    visits_vids += 1
-        #    num_times_visited(visits_vids, name_func)
+        list_vids = get_video_links(link)
+        num_vids = len(list_vids)
+        name_func = "download_vid_series()"
+        if (num_vids > 0):
+            download_video_series(total_vids, list_vids)
+            total_vids += num_vids
+            visits_vids += 1
+            num_times_visited(visits_vids, name_func)
         
         name_func = "download_pic_series()"
         list_pics = get_pic_links(link)
