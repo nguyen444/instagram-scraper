@@ -3,14 +3,42 @@ from bs4 import BeautifulSoup
 import os
 
 
+'''
+This Instagram scraper does not interface
+with Instagram itself. This is done by
+Bibliogram, which does the heavy lifting
+with regards to making requests to Instagram
+and retrieving data. This scraper uses
+Bibliogram to make requests to Instagram,
+then downloads what is returned by
+Bibliogram. It would therefore be more
+appropriate to call this a Bibliogram
+scraper.
+
+To download content from a single post,
+enter in the URL to an Instagram post when
+prompted by the program. To download
+content from several posts, enter in the
+name of a text file containing links to
+these posts. Put each link on its own
+line. See the text files in the repo for
+some examples.
+
+Finally, keep in mind that the input
+validation of this program is very poor.
+The program may also run a bit slowly.
+This is to be expected, as Bibliogram is
+no longer maintained.
+
+@author Nam Nguyen
+@version 2022.12.23
+'''
+
+
 
 # video example: view-source:https://bibliogram.org/p/BzLwtk4hjQm/
 # image example: view-source:https://bibliogram.org/p/BzYObQyhCh1
-
-# bib_url = "https://bibliogram.pussthecat.org"
 bib_url = "https://bibliogram.org"
-feed = ""
-address = os.getcwd()
 
 
 '''
@@ -171,7 +199,6 @@ if __name__ == "__main__":
     total_pics = 0
     visits_pics = 0
     
-    
     if (filename == "exit"):
         exit()
     
@@ -200,12 +227,10 @@ if __name__ == "__main__":
             num_times_visited(visits_pics, name_func)
         exit()
         
-    
-    file = open(filename, mode='r', encoding='utf-8')
-    
     '''
     For downloading content from several posts
     '''
+    file = open(filename, mode='r', encoding='utf-8')
     for line in file:
         if "instagram.com" in line:
             items = line.split('/')
@@ -228,7 +253,6 @@ if __name__ == "__main__":
                 total_pics += num_pics
                 visits_pics += 1
                 num_times_visited(visits_pics, name_func)
-    
     
     file.close()
     
