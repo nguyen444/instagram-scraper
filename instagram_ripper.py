@@ -4,8 +4,8 @@ import os
 
 
 
-# video example: view-source:https://bibliogram.snopyta.org/p/Bb46l8XFW4W/
-# image example: view-source:https://bibliogram.pussthecat.org/p/BzYObQyhCh1
+# video example: view-source:https://bibliogram.org/p/BzLwtk4hjQm/
+# image example: view-source:https://bibliogram.org/p/BzYObQyhCh1
 
 # bib_url = "https://bibliogram.pussthecat.org"
 bib_url = "https://bibliogram.org"
